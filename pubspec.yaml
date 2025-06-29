@@ -13,14 +13,16 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^5.0.0
+  flutter_lints: ^6.0.0
 
 flutter:
   uses-material-design: true
 
   assets:
+    - assets/image/on_1.png
+    - assets/image/on_2.png
+    - assets/image/on_3.png
     - assets/fonts/
-
 
 
   fonts:
@@ -35,3 +37,4 @@ flutter:
         - asset: assets\fonts\SF-Pro-Text-Semibold.otf
         - asset: assets\fonts\SF-Pro-Text-Thin.otf
         - asset: assets\fonts\SF-Pro-Text-Ultralight.otf
+

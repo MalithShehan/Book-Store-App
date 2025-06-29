@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/view/onboarding/onboarding_view.dart';
 
 void main() {
   runApp(const MainApp());
@@ -9,20 +10,14 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const title = 'Basic List';
-
     return MaterialApp(
-      title: title,
-      home: Scaffold(
-        appBar: AppBar(title: const Text(title)),
-        body: ListView(
-          children: const <Widget>[
-            ListTile(leading: Icon(Icons.map), title: Text('Map')),
-            ListTile(leading: Icon(Icons.photo_album), title: Text('Album')),
-            ListTile(leading: Icon(Icons.phone), title: Text('Phone')),
-          ],
-        ),
-      ),
+     title: 'Flutter Demo',
+     debugShowCheckedModeBanner: false,
+     theme: ThemeData(
+      primarySwatch: Colors.blue,
+      fontFamily: 'SF Pro Text',
+     ),
+      home: const OnboardingView(),
     );
   }
 }
