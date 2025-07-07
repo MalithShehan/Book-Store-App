@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/common/color.extention.dart'; 
+import 'package:flutter_app/common/color.extention.dart';
 
 class OnboardingView extends StatefulWidget {
   const OnboardingView({super.key});
@@ -10,25 +10,24 @@ class OnboardingView extends StatefulWidget {
 
 class _OnboardingViewState extends State<OnboardingView> {
   int page = 0;
-  PageController controller = PageController();
+  final PageController controller = PageController();
 
-  // Page data
-  List<Map<String, String>> pageArr = [
+  final List<Map<String, String>> pageArr = [
     {
       "title": "Discounted\nSecondhand Books",
       "sub_title": "Used and near new Secondhand books at great prices.",
-      "img": "assets/image/on_1.png" // Correct path
+      "img": "assets/image/on_1.png"
     },
     {
       "title": "20 Book Grocers\nNationally",
       "sub_title": "We've successfully opened 20 stores across Australia.",
-      "img": "assets/image/on_2.png" // Correct path
+      "img": "assets/image/on_2.png"
     },
     {
       "title": "Sell or Recycle Your Old\nBooks With Us",
       "sub_title":
           "If you're looking to downsize, sell or recycle old books, the Book Grocer can help.",
-      "img": "assets/image/on_3.png" // Correct path
+      "img": "assets/image/on_3.png"
     },
   ];
 
@@ -36,16 +35,18 @@ class _OnboardingViewState extends State<OnboardingView> {
   void initState() {
     super.initState();
     controller.addListener(() {
-      page = controller.page?.round() ?? 0;
-      if (mounted) {
-        setState(() {});
-      }
+      setState(() {
+        page = controller.page?.round() ?? 0;
+      });
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    var media = MediaQuery.of(context).size;
+    final media = MediaQuery.of(context).size;
+    final double baseHeight = 812.0; // iPhone 11 Pro height
+    final double scale = media.height / baseHeight;
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -55,11 +56,13 @@ class _OnboardingViewState extends State<OnboardingView> {
               controller: controller,
               itemCount: pageArr.length,
               itemBuilder: (context, index) {
-                var pObj = pageArr[index];
+                final pObj = pageArr[index];
                 return Container(
                   width: media.width,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 15, vertical: 50),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 15 * scale,
+                    vertical: 50 * scale,
+                  ),
                   child: Column(
                     children: [
                       // Title
@@ -68,11 +71,11 @@ class _OnboardingViewState extends State<OnboardingView> {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Tcolor.primary,
-                          fontSize: 38,
+                          fontSize: 32 * scale,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
-                      const SizedBox(height: 15),
+                      SizedBox(height: 15 * scale),
 
                       // Subtitle
                       Text(
@@ -80,19 +83,17 @@ class _OnboardingViewState extends State<OnboardingView> {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Tcolor.primartLight,
-                          fontSize: 14,
+                          fontSize: 14 * scale,
                         ),
                       ),
-                      SizedBox(
-                        height: media.width * 0.2,
-                      ),
+                      SizedBox(height: media.height * 0.06),
 
                       // Image
                       Image.asset(
-                        pObj["img"]!, // Correct key
-                        width: media.width * 0.8,
-                        height: media.width * 0.8,
-                        fit: BoxFit.fitWidth,
+                        pObj["img"]!,
+                        width: media.width * 0.75,
+                        height: media.width * 0.75,
+                        fit: BoxFit.contain,
                       ),
                     ],
                   ),
@@ -101,30 +102,29 @@ class _OnboardingViewState extends State<OnboardingView> {
             ),
 
             // Page Indicator
-            Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Row(
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: EdgeInsets.only(bottom: media.height * 0.05),
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: pageArr.map((pObj) {
-                    var index = pageArr.indexOf(pObj);
-                    return Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 4),
-                      width: 15,
-                      height: 15,
+                  children: pageArr.asMap().entries.map((entry) {
+                    int index = entry.key;
+                    return AnimatedContainer(
+                      duration: const Duration(milliseconds: 300),
+                      margin: const EdgeInsets.symmetric(horizontal: 5),
+                      width: page == index ? 16 * scale : 12 * scale,
+                      height: page == index ? 16 * scale : 12 * scale,
                       decoration: BoxDecoration(
                         color: page == index
                             ? Tcolor.primary
                             : Tcolor.primartLight,
-                        borderRadius: BorderRadius.circular(7.5),
+                        shape: BoxShape.circle,
                       ),
                     );
                   }).toList(),
                 ),
-                SizedBox(
-                  height: media.width * 0.15,
-                )
-              ],
+              ),
             ),
           ],
         ),
