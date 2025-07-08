@@ -60,12 +60,3 @@ Pull requests are welcome! If you'd like to contribute, please fork the reposito
 Made with ❤️ using Flutter
 
 ---
-
-### ✅ What to Do:
-1. Create a file named `README.md` inside your project root directory.
-2. Paste the above content.
-3. (Optional) Add screenshots to the repo and reference them in the **Screenshots** section.
-
-Let me know if you want a **Sinhala version**, or a **light/dark mode preview**, or if you're adding features like login or Firebase so we can expand the README.
-
-
