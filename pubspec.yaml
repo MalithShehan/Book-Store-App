@@ -22,6 +22,7 @@ flutter:
     - assets/image/on_1.png
     - assets/image/on_2.png
     - assets/image/on_3.png
+    - assets/image/welcome_bg.png
     - assets/fonts/
 
 
