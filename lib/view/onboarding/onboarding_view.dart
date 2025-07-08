@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/common/color.extention.dart';
+import 'package:flutter_app/view/onboarding/welcome_view.dart';
 
 class OnboardingView extends StatefulWidget {
   const OnboardingView({super.key});
@@ -104,37 +105,67 @@ class _OnboardingViewState extends State<OnboardingView> {
             Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Row(
-                  children: [
-                    TextButton(
-                      onPressed: () {},
-                      child: Text(
-                        "Skip",
-                        style: TextStyle(
-                          color: Tcolor.primary,
-                          fontWeight: FontWeight.w500,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (
+                              context
+                            ) => const WelcomeView()));
+                        },
+                        child: Text(
+                          "Skip",
+                          style: TextStyle(
+                            color: Tcolor.primary,
+                            fontSize: 17,
+                            fontWeight: FontWeight.w700,
+                          ),
                         ),
                       ),
-                    ),
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: pageArr.map((pObj) {
-                        var index = pageArr.indexOf(pObj);
-                        return Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 4),
-                          width: 15,
-                          height: 15,
-                          decoration: BoxDecoration(
-                            color: page == index
-                                ? Tcolor.primary
-                                : Tcolor.primartLight,
-                            borderRadius: BorderRadius.circular(7.5),
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: pageArr.map((pObj) {
+                          var index = pageArr.indexOf(pObj);
+                          return Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 4),
+                            width: 15,
+                            height: 15,
+                            decoration: BoxDecoration(
+                              color: page == index
+                                  ? Tcolor.primary
+                                  : Tcolor.primartLight,
+                              borderRadius: BorderRadius.circular(7.5),
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                      TextButton(
+                        onPressed: () {
+
+                          if(page < 2) {
+                            page = page + 1;
+                            controller.jumpToPage(page);
+                          } else {
+                            Navigator.push(context, MaterialPageRoute(builder: (
+                              context
+                            ) => const WelcomeView()));
+                          }
+                        },
+                        child: Text(
+                          "Next",
+                          style: TextStyle(
+                            color: Tcolor.primary,
+                            fontSize: 17,
+                            fontWeight: FontWeight.w700,
                           ),
-                        );
-                      }).toList(),
-                    ),
-                  ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
                 SizedBox(height: media.width * 0.15),
               ],
