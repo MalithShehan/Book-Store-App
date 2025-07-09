@@ -34,7 +34,7 @@ class _WelcomeViewState extends State<WelcomeView> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(height: media.height * 0.1 ),
+                  SizedBox(height: media.height * 0.1),
 
                   // Welcome Title
                   Text(
