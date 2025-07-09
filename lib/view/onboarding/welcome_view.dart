@@ -5,16 +5,20 @@ class WelcomeView extends StatefulWidget {
   const WelcomeView({super.key});
 
   @override
-  State<WelcomeView> createState() => _WelcomeViewSatte();
+  State<WelcomeView> createState() => _WelcomeViewState();
 }
 
-class _WelcomeViewSatte extends State<WelcomeView> {
+class _WelcomeViewState extends State<WelcomeView> {
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
+    double scale = media.height / 812; // Base height (iPhone 11 Pro)
+    double padding = 15 * scale;
+
     return Scaffold(
       body: Stack(
         children: [
+          // Background Image
           Image.asset(
             "assets/image/welcome_bg.png",
             width: media.width,
@@ -22,37 +26,73 @@ class _WelcomeViewSatte extends State<WelcomeView> {
             fit: BoxFit.cover,
           ),
 
+          // Foreground Content
           SafeArea(
             child: Container(
               width: media.width,
-              padding: const EdgeInsets.symmetric(horizontal: 15),
+              padding: EdgeInsets.symmetric(horizontal: padding),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(height: media.width * 0.25),
+                  SizedBox(height: media.height * 0.1 ),
 
+                  // Welcome Title
                   Text(
                     "Book For\nEvery Taste.",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Tcolor.primartLight,
-                      fontSize: 14,
+                      fontSize: 36 * scale,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  SizedBox(height: media.width * 0.25),
 
-                  MaterialButton(
-                    onPressed: () {},
-                    textColor: Colors.white,
-                    color: Tcolor.primary,
-                    height: 50,
-                    minWidth: double.maxFinite,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
-                    child: const Text(
-                      "Sign in",
-                      style: TextStyle(
-                        fontSize: 17,
-                        fontWeight: FontWeight.w500,
+                  SizedBox(height: media.height * 0.10),
+
+                  // Sign In Button
+                  SizedBox(
+                    width: double.infinity,
+                    height: 50 * scale,
+                    child: MaterialButton(
+                      onPressed: () {
+                        // TODO: Navigate to Sign In
+                      },
+                      color: Tcolor.primary,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20 * scale),
+                      ),
+                      child: Text(
+                        "Sign In",
+                        style: TextStyle(
+                          fontSize: 17 * scale,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  SizedBox(height: 20 * scale),
+
+                  // Sign Up Button
+                  SizedBox(
+                    width: double.infinity,
+                    height: 50 * scale,
+                    child: MaterialButton(
+                      onPressed: () {
+                        // TODO: Navigate to Sign Up
+                      },
+                      color: Tcolor.primary,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20 * scale),
+                      ),
+                      child: Text(
+                        "Sign Up",
+                        style: TextStyle(
+                          fontSize: 17 * scale,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ),
                   ),
