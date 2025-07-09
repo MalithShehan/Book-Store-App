@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/common/color.extention.dart';
+import 'package:flutter_app/common_widget/round_button.dart';
 
 class WelcomeView extends StatefulWidget {
   const WelcomeView({super.key});
@@ -48,53 +49,19 @@ class _WelcomeViewState extends State<WelcomeView> {
                   ),
 
                   SizedBox(height: media.height * 0.10),
-
+                  
                   // Sign In Button
-                  SizedBox(
-                    width: double.infinity,
-                    height: 50 * scale,
-                    child: MaterialButton(
-                      onPressed: () {
-                        // TODO: Navigate to Sign In
-                      },
-                      color: Tcolor.primary,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20 * scale),
-                      ),
-                      child: Text(
-                        "Sign In",
-                        style: TextStyle(
-                          fontSize: 17 * scale,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
+                  RoundButton(
+                    title: "Sign In",
+                    onPressed: () {},
                   ),
-
                   SizedBox(height: 20 * scale),
 
                   // Sign Up Button
-                  SizedBox(
-                    width: double.infinity,
-                    height: 50 * scale,
-                    child: MaterialButton(
-                      onPressed: () {
-                        // TODO: Navigate to Sign Up
-                      },
-                      color: Tcolor.primary,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20 * scale),
-                      ),
-                      child: Text(
-                        "Sign Up",
-                        style: TextStyle(
-                          fontSize: 17 * scale,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
+                  RoundButton(
+                    title: "Sign Up",
+                    onPressed: () {},
+                      // Navigate to Sign Up page
                   ),
                 ],
               ),
