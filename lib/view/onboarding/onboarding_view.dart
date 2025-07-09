@@ -11,25 +11,24 @@ class OnboardingView extends StatefulWidget {
 
 class _OnboardingViewState extends State<OnboardingView> {
   int page = 0;
-  PageController controller = PageController();
+  final PageController controller = PageController();
 
-  // Page data
-  List<Map<String, String>> pageArr = [
+  final List<Map<String, String>> pageArr = [
     {
       "title": "Discounted\nSecondhand Books",
       "sub_title": "Used and near new Secondhand books at great prices.",
-      "img": "assets/image/on_1.png", // Correct path
+      "img": "assets/image/on_1.png",
     },
     {
       "title": "20 Book Grocers\nNationally",
       "sub_title": "We've successfully opened 20 stores across Australia.",
-      "img": "assets/image/on_2.png", // Correct path
+      "img": "assets/image/on_2.png",
     },
     {
       "title": "Sell or Recycle Your Old\nBooks With Us",
       "sub_title":
           "If you're looking to downsize, sell or recycle old books, the Book Grocer can help.",
-      "img": "assets/image/on_3.png", // Correct path
+      "img": "assets/image/on_3.png",
     },
   ];
 
@@ -37,31 +36,35 @@ class _OnboardingViewState extends State<OnboardingView> {
   void initState() {
     super.initState();
     controller.addListener(() {
-      page = controller.page?.round() ?? 0;
       if (mounted) {
-        setState(() {});
+        setState(() {
+          page = controller.page?.round() ?? 0;
+        });
       }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    var media = MediaQuery.of(context).size;
+    final media = MediaQuery.of(context).size;
+    final double scale = media.height / 812; // base height for scaling
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Stack(
           children: [
+            // PageView for onboarding pages
             PageView.builder(
               controller: controller,
               itemCount: pageArr.length,
               itemBuilder: (context, index) {
-                var pObj = pageArr[index];
+                final pObj = pageArr[index];
                 return Container(
                   width: media.width,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 15,
-                    vertical: 50,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 16 * scale,
+                    vertical: 50 * scale,
                   ),
                   child: Column(
                     children: [
@@ -71,11 +74,11 @@ class _OnboardingViewState extends State<OnboardingView> {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Tcolor.primary,
-                          fontSize: 38,
+                          fontSize: 32 * scale,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
-                      const SizedBox(height: 15),
+                      SizedBox(height: 15 * scale),
 
                       // Subtitle
                       Text(
@@ -83,17 +86,17 @@ class _OnboardingViewState extends State<OnboardingView> {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Tcolor.primartLight,
-                          fontSize: 14,
+                          fontSize: 14 * scale,
                         ),
                       ),
-                      SizedBox(height: media.width * 0.2),
+                      SizedBox(height: media.height * 0.08),
 
                       // Image
                       Image.asset(
-                        pObj["img"]!, // Correct key
+                        pObj["img"]!,
                         width: media.width * 0.8,
                         height: media.width * 0.8,
-                        fit: BoxFit.fitWidth,
+                        fit: BoxFit.contain,
                       ),
                     ],
                   ),
@@ -101,65 +104,75 @@ class _OnboardingViewState extends State<OnboardingView> {
               },
             ),
 
-            // Page Indicator
+            // Page indicator and navigation controls
             Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  padding: EdgeInsets.symmetric(horizontal: 16 * scale),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+                      // Skip Button
                       TextButton(
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (
-                              context
-                            ) => const WelcomeView()));
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => const WelcomeView(),
+                            ),
+                          );
                         },
                         child: Text(
                           "Skip",
                           style: TextStyle(
                             color: Tcolor.primary,
-                            fontSize: 17,
+                            fontSize: 16 * scale,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
                       ),
+
+                      // Page Indicators
                       Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: pageArr.map((pObj) {
-                          var index = pageArr.indexOf(pObj);
+                        children: List.generate(pageArr.length, (index) {
                           return Container(
                             margin: const EdgeInsets.symmetric(horizontal: 4),
-                            width: 15,
-                            height: 15,
+                            width: page == index ? 16 : 12,
+                            height: page == index ? 16 : 12,
                             decoration: BoxDecoration(
                               color: page == index
                                   ? Tcolor.primary
                                   : Tcolor.primartLight,
-                              borderRadius: BorderRadius.circular(7.5),
+                              borderRadius: BorderRadius.circular(10),
                             ),
                           );
-                        }).toList(),
+                        }),
                       ),
+
+                      // Next Button
                       TextButton(
                         onPressed: () {
-
-                          if(page < 2) {
-                            page = page + 1;
-                            controller.jumpToPage(page);
+                          if (page < pageArr.length - 1) {
+                            controller.animateToPage(
+                              page + 1,
+                              duration: const Duration(milliseconds: 300),
+                              curve: Curves.easeInOut,
+                            );
                           } else {
-                            Navigator.push(context, MaterialPageRoute(builder: (
-                              context
-                            ) => const WelcomeView()));
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => const WelcomeView(),
+                              ),
+                            );
                           }
                         },
                         child: Text(
                           "Next",
                           style: TextStyle(
                             color: Tcolor.primary,
-                            fontSize: 17,
+                            fontSize: 16 * scale,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
@@ -167,7 +180,7 @@ class _OnboardingViewState extends State<OnboardingView> {
                     ],
                   ),
                 ),
-                SizedBox(height: media.width * 0.15),
+                SizedBox(height: media.height * 0.05),
               ],
             ),
           ],
