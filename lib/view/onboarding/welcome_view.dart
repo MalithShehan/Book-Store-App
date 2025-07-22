@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/common/color.extention.dart';
 import 'package:flutter_app/common_widget/round_button.dart';
+import 'package:flutter_app/view/login/signin_view.dart';
+import 'package:flutter_app/view/login/signup_view.dart';
 
 class WelcomeView extends StatefulWidget {
   const WelcomeView({super.key});
@@ -49,19 +51,33 @@ class _WelcomeViewState extends State<WelcomeView> {
                   ),
 
                   SizedBox(height: media.height * 0.10),
-                  
+
                   // Sign In Button
                   RoundButton(
                     title: "Sign In",
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const SignInView(),
+                        ),
+                      );
+                    },
                   ),
                   SizedBox(height: 20 * scale),
 
                   // Sign Up Button
                   RoundButton(
                     title: "Sign Up",
-                    onPressed: () {},
-                      // Navigate to Sign Up page
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const SignUpView(),
+                        ),
+                      );
+                    },
+                    // Navigate to Sign Up page
                   ),
                 ],
               ),
