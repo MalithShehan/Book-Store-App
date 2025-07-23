@@ -85,16 +85,17 @@ class _SignInViewState extends State<SignInView> {
                       fontSize: 15,
                     ),
                   ),
-                  const Spacer(
-                    
-                  ),
-                  TextButton(onPressed: (){}, child: Text(
-                    "Forgot Your Password?",
-                    style: TextStyle(
-                      color: Tcolor.subTitle.withOpacity(0.3),
-                      fontSize: 15,
+                  const Spacer(),
+                  TextButton(
+                    onPressed: () {},
+                    child: Text(
+                      "Forgot Your Password?",
+                      style: TextStyle(
+                        color: Tcolor.subTitle.withOpacity(0.3),
+                        fontSize: 15,
+                      ),
                     ),
-                  )),
+                  ),
                 ],
               ),
             ],
