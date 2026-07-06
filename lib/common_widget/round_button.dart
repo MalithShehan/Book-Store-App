@@ -1,76 +1,179 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/common/color.extention.dart';
+import '../common/bv_colors.dart';
 
-class RoundButton extends StatelessWidget {
+// ─────────────────────────────────────────────────────────────────────────────
+// Filled gradient button with scale-press animation (hit-test safe)
+// ─────────────────────────────────────────────────────────────────────────────
+class RoundButton extends StatefulWidget {
   final String title;
   final VoidCallback onPressed;
+
   const RoundButton({
     super.key,
     required this.title,
     required this.onPressed,
-  }); // Fixed constructor syntax
+  });
+
+  @override
+  State<RoundButton> createState() => _RoundButtonState();
+}
+
+class _RoundButtonState extends State<RoundButton>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _scaleAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 80),
+    );
+    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.95).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialButton(
-      onPressed: onPressed,
-      textColor: Colors.white,
-      color: Tcolor.primary,
-      height: 50,
-      minWidth: double.maxFinite,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
-      child: Text(
-        title, // Fixed title parameter
-        style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
+    return GestureDetector(
+      onTapDown: (_) => _controller.forward(),
+      onTapUp: (_) => _controller.reverse(),
+      onTapCancel: () => _controller.reverse(),
+      onTap: widget.onPressed,
+      behavior: HitTestBehavior.opaque,
+      child: ScaleTransition(
+        scale: _scaleAnimation,
+        child: Container(
+          width: double.infinity,
+          height: 54,
+          decoration: BoxDecoration(
+            gradient: BVColors.primaryGradient,
+            borderRadius: BorderRadius.circular(20),
+            boxShadow: [
+              BoxShadow(
+                color: BVColors.primary.withValues(alpha: 0.45),
+                blurRadius: 22,
+                offset: const Offset(0, 8),
+              ),
+            ],
+          ),
+          child: Center(
+            child: Text(
+              widget.title,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 17,
+                fontWeight: FontWeight.w600,
+                letterSpacing: 0.3,
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }
 }
 
-class RoundLineButton extends StatelessWidget {
+// ─────────────────────────────────────────────────────────────────────────────
+// Outline glass button with scale-press animation (hit-test safe)
+// ─────────────────────────────────────────────────────────────────────────────
+class RoundOutlineButton extends StatefulWidget {
   final String title;
   final VoidCallback onPressed;
-  const RoundLineButton({
+
+  const RoundOutlineButton({
     super.key,
     required this.title,
     required this.onPressed,
-  }); // Fixed constructor syntax
+  });
+
+  @override
+  State<RoundOutlineButton> createState() => _RoundOutlineButtonState();
+}
+
+class _RoundOutlineButtonState extends State<RoundOutlineButton>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _scaleAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 80),
+    );
+    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.95).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: onPressed,
-      style: ButtonStyle(
-        backgroundColor: getColor(Colors.white, Tcolor.primary),
-        foregroundColor: getColor(Tcolor.primary, Colors.white),
-        shadowColor: WidgetStateProperty.resolveWith(
-          (states) => Tcolor.primartLight,
-        ),
-        minimumSize: WidgetStateProperty.resolveWith(
-          (states) => const Size(double.maxFinite, 50),
-        ),
-        shape: WidgetStateProperty.resolveWith(
-          (states) => RoundedRectangleBorder(
+    return GestureDetector(
+      onTapDown: (_) => _controller.forward(),
+      onTapUp: (_) => _controller.reverse(),
+      onTapCancel: () => _controller.reverse(),
+      onTap: widget.onPressed,
+      behavior: HitTestBehavior.opaque,
+      child: ScaleTransition(
+        scale: _scaleAnimation,
+        child: Container(
+          width: double.infinity,
+          height: 54,
+          decoration: BoxDecoration(
+            color: Colors.white.withValues(alpha: 0.05),
             borderRadius: BorderRadius.circular(20),
-            side: BorderSide(
-              width: 1,
-              color: states.contains(WidgetState.pressed)
-                  ? Tcolor.primary
-                  : Colors.transparent,
+            border: Border.all(
+              color: BVColors.primaryLight.withValues(alpha: 0.6),
+              width: 1.5,
+            ),
+          ),
+          child: Center(
+            child: Text(
+              widget.title,
+              style: TextStyle(
+                color: BVColors.primaryLight,
+                fontSize: 17,
+                fontWeight: FontWeight.w600,
+                letterSpacing: 0.3,
+              ),
             ),
           ),
         ),
       ),
-      child: Text(
-        title, // Fixed title parameter
-        style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
-      ),
     );
   }
+}
 
-  WidgetStateProperty<Color> getColor(Color color, Color colorPressed) {
-    return WidgetStateProperty.resolveWith(
-      (states) => states.contains(WidgetState.pressed) ? colorPressed : color,
-    );
-  }
+// ─────────────────────────────────────────────────────────────────────────────
+// Legacy alias (kept for backward compatibility)
+// ─────────────────────────────────────────────────────────────────────────────
+class RoundLineButton extends StatelessWidget {
+  final String title;
+  final VoidCallback onPressed;
+
+  const RoundLineButton({
+    super.key,
+    required this.title,
+    required this.onPressed,
+  });
+
+  @override
+  Widget build(BuildContext context) =>
+      RoundOutlineButton(title: title, onPressed: onPressed);
 }

@@ -9,6 +9,12 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_riverpod: ^2.5.1
+  hive_flutter: ^1.1.0
+  just_audio: ^0.9.38
+  epub_view: ^3.0.0
+  syncfusion_flutter_pdfviewer: ^26.1.39
+  google_generative_ai: ^0.4.0
 
 dev_dependencies:
   flutter_test:
@@ -19,10 +25,7 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/image/on_1.png
-    - assets/image/on_2.png
-    - assets/image/on_3.png
-    - assets/image/welcome_bg.png
+    - assets/image/
     - assets/fonts/
 
 
